@@ -3,13 +3,13 @@ var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight,{ba
 document.body.appendChild(renderer.view);
 // create the root of the scene graph
 var stage = new PIXI.Container();
-stage.addChild(creaBasicText());
-stage.addChild(creaBoton());
+//stage.addChild(creaBasicText());
+var botonInit=creaBoton();
+stage.addChild(botonInit);
 stage.addChild(creaRichText());
 // start animating
 animate();
 
-main();
 function creaRichText(){
     var basicText=creaBasicText();
     var style = {
@@ -22,7 +22,7 @@ function creaRichText(){
         dropShadowAngle : Math.PI / 6,
         dropShadowDistance : 6,
         wordWrap : true,
-        wordWrapWidth : 440
+        wordWrapWidth : 550
     };
     var richText = new PIXI.Text('COMUNCAS GAME DEV ',style);
     richText.x = window.innerWidth*2/6;
@@ -41,10 +41,18 @@ function creaBasicText(){
 function creaBoton(){
 
 /********************************************/
-var button = new PIXI.Sprite.fromImage('../img/button.png');
+//var button = new PIXI.Sprite.fromImage('../img/boton_inicio.png');
+var texture  = PIXI.BaseTexture.fromImage('../img/boton_inicio.png');
+var spriteTexture1 = new PIXI.Texture(texture, new PIXI.Rectangle(0, 0, 314, 314));
+var spriteTexture2 = new PIXI.Texture(texture, new PIXI.Rectangle(322, 0, 314, 314));
+var button = new PIXI.Sprite(spriteTexture1);
+button.spriteTexture1=spriteTexture1;
+button.spriteTexture2=spriteTexture2;
 button.buttonMode = true;
-button.position.x = window.innerWidth*2/6;
-button.position.y = window.innerHeight*2/6;
+button.position.x = window.innerWidth*3/6-window.innerWidth/24;
+button.position.y = window.innerHeight*3/6;
+button.width=window.innerWidth/12;
+button.height=window.innerWidth/12;
 // make the button interactive...
 button.interactive = true;
     button
@@ -78,11 +86,13 @@ function animate() {
 
 function onButtonDown()
 {
-  console.log("onButtonDown");
+botonInit.texture=botonInit.spriteTexture2;
+console.log("onButtonDown");
 }
 
 function onButtonUp()
 {
+botonInit.texture=botonInit.spriteTexture1;
  console.log("onButtonUp");
 }
 
@@ -93,5 +103,5 @@ function onButtonOver()
 
 function onButtonOut()
 {
-    console.log("onButtonOut");
+ console.log("onButtonOut");
 }
